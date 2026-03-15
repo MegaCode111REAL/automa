@@ -1,0 +1,1 @@
+"""Macro automation application package."""
