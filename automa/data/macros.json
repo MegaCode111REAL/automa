@@ -1,0 +1,23 @@
+{
+  "setups": [
+    {
+      "name": "Default Setup",
+      "author": "automa",
+      "active": true,
+      "macros": [
+        {
+          "name": "Sample Click",
+          "author": "automa",
+          "keybind": "",
+          "events": [
+            {"type": "mouse", "button": "left", "action": "down", "x": 500, "y": 400},
+            {"type": "mouse", "button": "left", "action": "up", "x": 500, "y": 400},
+            {"type": "delay", "ms": 250},
+            {"type": "keyboard", "key": "a", "action": "down"},
+            {"type": "keyboard", "key": "a", "action": "up"}
+          ]
+        }
+      ]
+    }
+  ]
+}
