@@ -1,0 +1,47 @@
+{
+  "groups": [
+    {
+      "name": "Minecraft automation",
+      "macros": [
+        {
+          "name": "AutoMine",
+          "trigger": {
+            "type": "window_active",
+            "window_name": "Minecraft"
+          },
+          "actions": [
+            {
+              "type": "mouse_click",
+              "button": "left"
+            },
+            {
+              "type": "delay",
+              "time": 0.2
+            }
+          ]
+        },
+        {
+          "name": "AutoEat",
+          "trigger": {
+            "type": "hotkey",
+            "combo": "<ctrl>+<alt>+e"
+          },
+          "actions": [
+            {
+              "type": "key_press",
+              "key": "2"
+            },
+            {
+              "type": "delay",
+              "time": 0.1
+            },
+            {
+              "type": "mouse_click",
+              "button": "right"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
