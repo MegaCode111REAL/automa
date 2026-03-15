@@ -2,6 +2,31 @@
 
 Cross-platform desktop macro automation platform written in Python, with a modular architecture for recording, playback, editing, trigger-based automation, and image pattern detection.
 
+## Get the app (recommended)
+
+For normal use, **download the latest release for your OS and run it**:
+
+1. Go to this repository's **Releases** page.
+2. Download the newest asset for your platform:
+   - Windows
+   - Linux
+   - macOS
+3. Run the application bundle/executable.
+
+> This is the primary install path. Most users should not need to run from source.
+
+## First launch permissions (shown in-app)
+
+On first launch, automa shows OS-specific setup instructions for required permissions:
+
+- **Windows**: desktop/input access, and run as Administrator only if hooks fail.
+- **Linux**: X11 recommended; Wayland may block global hooks depending on compositor policy.
+- **macOS**: enable automa in **Accessibility**, **Input Monitoring**, and **Screen Recording**.
+
+## macOS support
+
+automa supports macOS in addition to Windows and Linux. The app includes first-launch guidance for macOS privacy permissions required for automation and screen capture.
+
 ## Features
 
 - Keyboard/mouse macro recording with timing preservation.
@@ -23,6 +48,7 @@ automa/
     macro_editor.py
     group_manager.py
   core/
+    app_settings.py
     macro_engine.py
     macro_recorder.py
     macro_store.py
@@ -38,18 +64,13 @@ automa/
 requirements.txt
 ```
 
-## Installation
+## Developer setup (source)
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Linux
+source .venv/bin/activate  # Linux/macOS
 # .venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-```
-
-## Run
-
-```bash
 python -m automa.main
 ```
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import platform
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -21,8 +22,9 @@ from PySide6.QtWidgets import (
 
 from automa.core.macro_engine import MacroEngine
 from automa.core.macro_recorder import MacroRecorder
+from automa.core.app_settings import AppSettings
 from automa.core.macro_store import MacroStore
-from automa.core.models import Macro, MacroGroup, Trigger
+from automa.core.models import Macro, MacroGroup
 from automa.core.trigger_system import TriggerSystem
 from automa.gui.group_manager import GroupManager
 from automa.gui.macro_editor import MacroEditor
@@ -35,6 +37,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("automa")
         self.resize(1400, 800)
         self.store = store
+        self.settings = AppSettings()
 
         self.engine = MacroEngine()
         self.recorder = MacroRecorder()
@@ -89,7 +92,46 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(root)
         self._build_toolbar()
         self._refresh_group_list()
+        self._show_first_launch_instructions()
         self._log("Application loaded")
+
+
+    def _show_first_launch_instructions(self) -> None:
+        if self.settings.get_bool("permissions_instructions_seen", default=False):
+            return
+
+        os_name = platform.system()
+        details = {
+            "Windows": (
+                "Windows permissions setup:\n"
+                "1) Start automa once as your normal user.\n"
+                "2) If global hotkeys or recording fail, restart automa as Administrator.\n"
+                "3) Allow desktop/input access if your security software prompts."
+            ),
+            "Linux": (
+                "Linux permissions setup:\n"
+                "1) X11 is recommended for global hooks and macro playback.\n"
+                "2) On Wayland, keyboard/mouse hooks may be blocked by compositor policy.\n"
+                "3) Ensure your user can access input devices and screen capture APIs."
+            ),
+            "Darwin": (
+                "macOS permissions setup:\n"
+                "1) Open System Settings → Privacy & Security.\n"
+                "2) Enable automa in Accessibility.\n"
+                "3) Enable automa in Input Monitoring.\n"
+                "4) Enable automa in Screen Recording for image detection/screen capture.\n"
+                "5) Restart automa after enabling permissions."
+            ),
+        }
+        message = details.get(os_name, "Grant input and screen permissions required by your OS.")
+
+        QMessageBox.information(
+            self,
+            "First launch: required permissions",
+            "automa needs OS-level permissions for global hotkeys, input automation, "
+            "and screen capture.\n\n" + message,
+        )
+        self.settings.set_bool("permissions_instructions_seen", True)
 
     def _build_toolbar(self) -> None:
         toolbar = QToolBar("Main")

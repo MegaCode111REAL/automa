@@ -5,11 +5,15 @@ import time
 from pathlib import Path
 from typing import Callable
 
-import pywinctl
 from pynput import keyboard
 
 from automa.core.models import Macro
 from automa.modules.image_detection import ImageDetector
+
+try:
+    import pywinctl
+except Exception:  # pragma: no cover - optional dependency on some environments
+    pywinctl = None
 
 
 class TriggerSystem:
@@ -42,6 +46,8 @@ class TriggerSystem:
                 if not trigger:
                     continue
                 if trigger.type == "window_active":
+                    if pywinctl is None:
+                        continue
                     target = str(trigger.config.get("window_name", ""))
                     active = pywinctl.getActiveWindowTitle() or ""
                     if target and target.lower() in active.lower():
