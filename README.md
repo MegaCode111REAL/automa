@@ -87,3 +87,21 @@ python -m automa.main
   ]
 }
 ```
+
+## Trigger Types
+
+- `hotkey`: Global shortcut combo (e.g., `<ctrl>+<alt>+e`).
+- `window_active`: Fires when active window title matches configured text.
+- `timer`: Runs a macro every N seconds.
+- `image_detect`: Runs when template matching passes threshold.
+
+## Safety Features
+
+- `pyautogui.FAILSAFE = True` (moving mouse to top-left can stop unsafe automation).
+- Manual `Stop` and `Pause/Resume` controls in GUI.
+- Trigger service can be started/stopped independently.
+
+## Notes
+
+- Global hooks (recording/hotkeys) may require elevated permissions on some Linux desktop environments.
+- Wayland sessions can limit low-level input hooks/capture for some libraries.
